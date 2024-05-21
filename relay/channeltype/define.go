@@ -41,6 +41,5 @@ const (
 	Cloudflare
 	DeepL
 	TogetherAI
-
 	Dummy
 )

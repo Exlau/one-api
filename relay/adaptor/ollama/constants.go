@@ -8,4 +8,5 @@ var ModelList = []string{
 	"phi3:latest",
 	"qwen:0.5b-chat",
 	"qwen:7b",
+	"nomic-embed-text",
 }

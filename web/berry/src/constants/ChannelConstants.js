@@ -1,4 +1,22 @@
 export const CHANNEL_OPTIONS = {
+  99: {
+    key: 99,
+    text: 'SAP AI Core',
+    value: 99,
+    color: success
+  },
+  98: {
+    key: 98,
+    text: 'SAP AI Core OSS-LLM',
+    value: 98,
+    color: success
+  },
+  4: {
+    key: 4,
+    text: 'SAP AI Core',
+    value: 4,
+    color: success
+  },
   1: {
     key: 1,
     text: 'OpenAI',

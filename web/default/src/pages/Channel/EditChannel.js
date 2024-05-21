@@ -58,6 +58,9 @@ const EditChannel = () => {
     region: '',
     sk: '',
     ak: '',
+    client_id: '',
+    client_secret: '',
+    access_token_url: '',
     user_id: ''
   });
   const handleInputChange = (e, { name, value }) => {
@@ -174,7 +177,7 @@ const EditChannel = () => {
       showInfo('模型映射必须是合法的 JSON 格式！');
       return;
     }
-    let localInputs = {...inputs};
+    let localInputs = { ...inputs };
     if (localInputs.base_url && localInputs.base_url.endsWith('/')) {
       localInputs.base_url = localInputs.base_url.slice(0, localInputs.base_url.length - 1);
     }
@@ -246,7 +249,7 @@ const EditChannel = () => {
                 <Message>
                   注意，<strong>模型部署名称必须和模型名称保持一致</strong>，因为 One API 会把请求体中的 model
                   参数替换为你的部署名称（模型名称中的点会被剔除），<a target='_blank'
-                                                                    href='https://github.com/songquanpeng/one-api/issues/133?notification_referrer_id=NT_kwDOAmJSYrM2NjIwMzI3NDgyOjM5OTk4MDUw#issuecomment-1571602271'>图片演示</a>。
+                    href='https://github.com/songquanpeng/one-api/issues/133?notification_referrer_id=NT_kwDOAmJSYrM2NjIwMzI3NDgyOjM5OTk4MDUw#issuecomment-1571602271' rel="noreferrer">图片演示</a>。
                 </Message>
                 <Form.Field>
                   <Form.Input
@@ -419,6 +422,46 @@ const EditChannel = () => {
               autoComplete='new-password'
             />
           </Form.Field>
+          {
+            (inputs.type === 99 || inputs.type === 98) && (
+              <Form.Field>
+                <Form.Input
+                label='Client ID'
+                name='client_id'
+                required
+                placeholder="client_id"
+                onChange={handleConfigChange}
+                value={config.client_id}
+                autoComplete=''
+              />
+              <Form.Input
+                label='Client SECRET'
+                name='client_secret'
+                required
+                placeholder="client_secret"
+                onChange={handleConfigChange}
+                value={config.client_secret}
+                autoComplete=''
+              />
+              <Form.Input
+                label='ACCESS TOKEN URL'
+                name='access_token_url'
+                required
+                placeholder="access_token_url"
+                onChange={handleConfigChange}
+                value={config.access_token_url}
+                autoComplete=''
+              />
+                <Form.Input
+                  label='SERVICE ENDPOINT'
+                  name='base_url'
+                  onChange={handleInputChange}
+                  value={inputs.base_url}
+                  autoComplete=''
+                />
+                </Form.Field>
+            )
+          }
           {
             inputs.type === 33 && (
               <Form.Field>

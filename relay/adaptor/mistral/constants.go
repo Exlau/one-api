@@ -7,4 +7,5 @@ var ModelList = []string{
 	"mistral-medium-latest",
 	"mistral-large-latest",
 	"mistral-embed",
+	"mistral:7b",
 }

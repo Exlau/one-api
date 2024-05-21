@@ -152,6 +152,8 @@ var ModelRatio = map[string]float64{
 	"mistral-medium-latest": 2.7 / 1000 * USD,
 	"mistral-large-latest":  8.0 / 1000 * USD,
 	"mistral-embed":         0.1 / 1000 * USD,
+	"mistral:7b":            0.1 / 1000 * USD,
+	"nomic-embed-text":      0.1 / 1000 * USD,
 	// https://wow.groq.com/#:~:text=inquiries%C2%A0here.-,Model,-Current%20Speed
 	"llama3-70b-8192":    0.59 / 1000 * USD,
 	"mixtral-8x7b-32768": 0.27 / 1000 * USD,
