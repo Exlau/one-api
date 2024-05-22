@@ -3,10 +3,13 @@ package ollama
 import (
 	"errors"
 	"fmt"
-	"github.com/songquanpeng/one-api/relay/meta"
-	"github.com/songquanpeng/one-api/relay/relaymode"
 	"io"
+	"log"
 	"net/http"
+
+	"github.com/songquanpeng/one-api/relay/meta"
+	"github.com/songquanpeng/one-api/relay/oauth2"
+	"github.com/songquanpeng/one-api/relay/relaymode"
 
 	"github.com/gin-gonic/gin"
 	"github.com/songquanpeng/one-api/relay/adaptor"
@@ -17,7 +20,16 @@ type Adaptor struct {
 }
 
 func (a *Adaptor) Init(meta *meta.Meta) {
-
+	clientID := meta.Config.ClientID
+	clientSecret := meta.Config.ClientSecret
+	uaaUrl := meta.Config.AccessTokenURL
+	var err error
+	if clientID != "" && clientSecret != "" && uaaUrl != "" {
+		meta.APIKey, err = oauth2.TokenManager.GetAccessToken(clientID, clientSecret, uaaUrl)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func (a *Adaptor) GetRequestURL(meta *meta.Meta) (string, error) {

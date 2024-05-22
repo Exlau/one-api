@@ -3,16 +3,19 @@ package openai
 import (
 	"errors"
 	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/songquanpeng/one-api/relay/adaptor"
 	"github.com/songquanpeng/one-api/relay/adaptor/minimax"
 	"github.com/songquanpeng/one-api/relay/channeltype"
 	"github.com/songquanpeng/one-api/relay/meta"
 	"github.com/songquanpeng/one-api/relay/model"
+	"github.com/songquanpeng/one-api/relay/oauth2"
 	"github.com/songquanpeng/one-api/relay/relaymode"
-	"io"
-	"net/http"
-	"strings"
 )
 
 type Adaptor struct {
@@ -21,6 +24,16 @@ type Adaptor struct {
 
 func (a *Adaptor) Init(meta *meta.Meta) {
 	a.ChannelType = meta.ChannelType
+	clientID := meta.Config.ClientID
+	clientSecret := meta.Config.ClientSecret
+	uaaUrl := meta.Config.AccessTokenURL
+	var err error
+	if clientID != "" && clientSecret != "" && uaaUrl != "" {
+		meta.APIKey, err = oauth2.TokenManager.GetAccessToken(clientID, clientSecret, uaaUrl)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func (a *Adaptor) GetRequestURL(meta *meta.Meta) (string, error) {
@@ -46,7 +59,10 @@ func (a *Adaptor) GetRequestURL(meta *meta.Meta) (string, error) {
 	case channeltype.Minimax:
 		return minimax.GetRequestURL(meta)
 	default:
-		return GetFullRequestURL(meta.BaseURL, meta.RequestURLPath, meta.ChannelType), nil
+		requestURL := strings.Split(meta.RequestURLPath, "?")[0]
+		task := strings.TrimPrefix(requestURL, "/v1")
+		requestURL = fmt.Sprintf("%s?api-version=%s", task, meta.Config.APIVersion)
+		return GetFullRequestURL(meta.BaseURL, requestURL, meta.ChannelType), nil
 	}
 }
 

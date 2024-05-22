@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/songquanpeng/one-api/common/config"
 	"github.com/songquanpeng/one-api/common/helper"
 	"github.com/songquanpeng/one-api/common/logger"
@@ -39,13 +40,18 @@ type Channel struct {
 }
 
 type ChannelConfig struct {
-	Region     string `json:"region,omitempty"`
-	SK         string `json:"sk,omitempty"`
-	AK         string `json:"ak,omitempty"`
-	UserID     string `json:"user_id,omitempty"`
-	APIVersion string `json:"api_version,omitempty"`
-	LibraryID  string `json:"library_id,omitempty"`
-	Plugin     string `json:"plugin,omitempty"`
+	Region          string `json:"region,omitempty"`
+	SK              string `json:"sk,omitempty"`
+	AK              string `json:"ak,omitempty"`
+	UserID          string `json:"user_id,omitempty"`
+	APIVersion      string `json:"api_version,omitempty"`
+	CustomHeader    string `json:"custom_header,omitempty"`
+	ClientID        string `json:"client_id,omitempty"`
+	ClientSecret    string `json:"client_secret,omitempty"`
+	AccessTokenURL  string `json:"access_token_url,omitempty"`
+	ServiceEndpoint string `json:"service_endpoint,omitempty"`
+	LibraryID       string `json:"library_id,omitempty"`
+	Plugin          string `json:"plugin,omitempty"`
 }
 
 func GetAllChannels(startIdx int, num int, scope string) ([]*Channel, error) {

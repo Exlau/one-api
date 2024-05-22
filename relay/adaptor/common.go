@@ -1,18 +1,31 @@
 package adaptor
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/songquanpeng/one-api/relay/client"
-	"github.com/songquanpeng/one-api/relay/meta"
 	"io"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/songquanpeng/one-api/common/logger"
+	"github.com/songquanpeng/one-api/relay/client"
+	"github.com/songquanpeng/one-api/relay/meta"
 )
 
 func SetupCommonRequestHeader(c *gin.Context, req *http.Request, meta *meta.Meta) {
 	req.Header.Set("Content-Type", c.Request.Header.Get("Content-Type"))
 	req.Header.Set("Accept", c.Request.Header.Get("Accept"))
+	// Apply custom header
+	customHeader := make(map[string]string)
+	err := json.Unmarshal([]byte(meta.Config.CustomHeader), &customHeader)
+	if err != nil {
+		logger.Errorf(c, "Error while apply custom header: %s", err.Error())
+	}
+	for key, value := range customHeader {
+		req.Header.Set(key, value)
+	}
+
 	if meta.IsStream && c.Request.Header.Get("Accept") == "" {
 		req.Header.Set("Accept", "text/event-stream")
 	}

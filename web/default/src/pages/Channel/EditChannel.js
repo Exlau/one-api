@@ -61,6 +61,8 @@ const EditChannel = () => {
     client_id: '',
     client_secret: '',
     access_token_url: '',
+    custom_header:'',
+    api_version: '',
     user_id: ''
   });
   const handleInputChange = (e, { name, value }) => {
@@ -175,6 +177,10 @@ const EditChannel = () => {
     }
     if (inputs.model_mapping !== '' && !verifyJSON(inputs.model_mapping)) {
       showInfo('模型映射必须是合法的 JSON 格式！');
+      return;
+    }
+    if (config.custom_header !== '' && !verifyJSON(config.custom_header)) {
+      showInfo('Custom header should be valid JSON');
       return;
     }
     let localInputs = { ...inputs };
@@ -421,10 +427,27 @@ const EditChannel = () => {
               style={{ minHeight: 150, fontFamily: 'JetBrains Mono, Consolas' }}
               autoComplete='new-password'
             />
+            <Form.TextArea
+              label='CUSTOM HEADER'
+              name='custom_header'
+              onChange={handleConfigChange}
+              value={config.custom_header}
+              style={{ minHeight: 150, fontFamily: 'JetBrains Mono, Consolas' }}
+              autoComplete=''
+            />
           </Form.Field>
           {
-            (inputs.type === 99 || inputs.type === 98) && (
               <Form.Field>
+
+                <Form.Input
+                label='API VERSION'
+                name='api_version'
+                required
+                placeholder="api_version"
+                onChange={handleConfigChange}
+                value={config.api_version}
+                autoComplete=''
+              />
                 <Form.Input
                 label='Client ID'
                 name='client_id'
@@ -460,7 +483,6 @@ const EditChannel = () => {
                   autoComplete=''
                 />
                 </Form.Field>
-            )
           }
           {
             inputs.type === 33 && (
