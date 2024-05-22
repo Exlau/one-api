@@ -1,7 +1,5 @@
 export const CHANNEL_OPTIONS = [
     {key: 1, text: 'OpenAI', value: 1, color: 'green'},
-    {key: 99, text: 'SAP AI Core', value: 99, color: 'green'},
-    {key: 98, text: 'SAP AI Core OSS-LLM', value: 98, color: 'green'},
     {key: 14, text: 'Anthropic Claude', value: 14, color: 'black'},
     {key: 33, text: 'AWS Claude', value: 33, color: 'black'},
     {key: 3, text: 'Azure OpenAI', value: 3, color: 'olive'},
